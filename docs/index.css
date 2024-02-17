@@ -1,0 +1,16 @@
+table{
+    border: 2px solid blue;
+    width: 20%;
+    text-align: center;
+    
+   
+
+}
+td{
+    border: 1px solid red;
+    height: auto;
+}
+.t1{
+    width: 100px;
+    height: 100px;
+}
