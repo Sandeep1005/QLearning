@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', ()=>{
+
+    var cells=document.querySelectorAll(".value-column");
+    cells.forEach(cell => {
+        cell.textContent=Math.floor(Math.random()*201)-100;
+        
+    });
+
+})
+
     {
         setInterval(()=>{
         document.getElementById("td1").textContent = Math.floor(Math.random()*201)-100;
@@ -8,3 +17,4 @@ document.addEventListener('DOMContentLoaded', ()=>{
         },1000)
     }
 })
+
