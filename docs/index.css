@@ -25,6 +25,7 @@ body{
     font-size: larger;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 
+}
 table{
     border: 2px solid blue;
     width: 20%;
@@ -41,3 +42,4 @@ td{
     width: 100px;
     height: 100px;
 }
+
