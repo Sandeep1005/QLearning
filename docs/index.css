@@ -1,16 +1,26 @@
-table{
+body{
+    display: grid;
+    place-items: center;
+    background-color: aquamarine    ;
+}
+.outer-table{
     border: 2px solid blue;
-    width: 20%;
-    text-align: center;
-    
-   
+}
 
-}
-td{
+
+.inner-column{
     border: 1px solid red;
-    height: auto;
-}
-.t1{
-    width: 100px;
+    height: 20px;
+    width: 25px;
+} 
+.inner-table{
+    width: 200px;
     height: 100px;
+    
+}
+
+.value-column{
+    text-align: center;
+    font-size: larger;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
