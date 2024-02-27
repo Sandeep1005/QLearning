@@ -313,25 +313,22 @@ function printQmatrix(Q){
     document.write("<br>")
   }
 }
+
 function formatDecimal(number) {
   // Ensure number is a valid number
   if (isNaN(number)) {
     return "Invalid number";
   }
 
-  // Round the number to 2 decimal places
-  const roundedNumber = Number(number).toFixed(2);
+  // Determine the minimum integer digits based on sign
+  const minIntegerDigits = number < 0 ? 3 : 4;
 
-  // Extract the integer and decimal parts
-  const [integerPart, decimalPart] = roundedNumber.split(".");
+  // Use Intl.NumberFormat for formatting
+  const formatter = new Intl.NumberFormat('en-US', {
+    minimumIntegerDigits: minIntegerDigits,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
 
-  // Ensure there are exactly 4 digits before the decimal point
-  const formattedIntegerPart = "0".repeat(4 - integerPart.length) + integerPart;
-
-  // Ensure there are exactly 2 digits after the decimal point
-  const formattedDecimalPart = decimalPart.padEnd(2, "0");
-
-  // Combine the formatted parts and return the result
-  const formattedNumber = `${formattedIntegerPart}.${formattedDecimalPart}`;
-  return formattedNumber;
+  return formatter.format(number);
 }
