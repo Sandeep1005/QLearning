@@ -4,6 +4,15 @@ body{
     place-items: center;
     background-color: aquamarine    ;
 }
+div{
+    display: inline-block;
+}
+.steps{
+position: absolute;
+top: 10%;
+left: 15%;
+  
+}
 .outer-table{
     border: 2px solid blue;
 }
@@ -34,7 +43,7 @@ table{
 
 }
 td{
-    border: 1px solid red;
+    
     height: auto;
 }
 .t1{
