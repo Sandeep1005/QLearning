@@ -11,23 +11,27 @@
 
 class QTableAgentV1 {
     constructor(env, alpha = 0.1, gamma = 0.9, epsilon = 0.5,actionSpaceSize=4) {
+        // document.write("chkp1<br>")
         this.env = env;
-        this.gridShape = [this.env.grid.length(),this.env.grid[0].length];
-        
+        // document.write("chkp2<br>")
+        this.gridShape = [this.env.grid.length,this.env.grid[0].length];
+        // document.write("chkp3<br>")
         this.actionSpaceSize =actionSpaceSize;
         this.alpha = alpha;  // Learning rate
         this.gamma = gamma;  // Discount factor
         this.epsilon = epsilon;  // Exploration rate
-
+        // document.write("chkp4<br>")
         // Initialize Q-table
         this.Q = Array.from({ length: this.gridShape[0] }, () =>
             Array.from({ length: this.gridShape[1] }, () =>
                 Array(this.actionSpaceSize).fill(0)
             )
         );
+        // document.write("chkp5<br>")
     }
 
     act(state, greedy = false) {
+        // document.write("act chkp1 <br>")
         if (Math.random() < this.epsilon && !greedy) {  // Explore with probability epsilon
             return Math.floor(Math.random() * this.actionSpaceSize);
         } else {  // Exploit using maximum Q-value
@@ -53,41 +57,53 @@ class QTableAgentV1 {
 
         for (let episode = 0; episode < episodes; episode++) {
             let state = this.env.reset();
-            let done = false;
 
             let episodeReward = 0;
             let totalSteps = 0;
-            while (!done) {
-                const action = this.act(state);
-                const [nextState, reward, done] = this.env.step(action);
+            while (true) {
+                var action = this.act(state);
+                var [nextState, reward, done, info] = this.env.step(action);
                 this.learn(state, action, nextState, reward);
 
                 state = nextState;
                 episodeReward += reward;
                 totalSteps++;
+
+                //Episode end condition
+                if (done){break;}
             }
 
             episodeRewards.push(episodeReward);
             stepsInEpisodes.push(totalSteps);
         }
+        return [episodeRewards, stepsInEpisodes]
     }
 
 
-    play(numEpisodes = 1, greedy = true) {
-       
-            let state = this.env.reset();
-            let done = false;
+    play(greedy = true, max_iterations=20) {
+      // document.write("play chkp1 <br>")
+      var state = this.env.reset();
+      var done = false;
 
-            const allActions = [];
-            while (!done) {
-                const action = this.act(state, greedy);
-                allActions.push(action);
-                const [nextState, reward, done] = this.env.step(action);
-                state = nextState;
-            }
-            document.write(allActions+"<br>");
-          
-        
+      const allActions = [];
+      var steps = 0;
+      // document.write("play chkp2 <br>")
+      while (true) {
+        // document.write("play loop chkp1 <br>")
+        const action = this.act(state, greedy);
+        // document.write("play loop chkp2 <br>")
+        allActions.push(this.env.actionSpace[action]);
+        var [nextState, reward, done, info] = this.env.step(action);
+        // allActions.push(done)
+        // allActions.push(nextState)
+        state = nextState;
+        // document.write(action+"<br>")
+        steps = steps+1;
+        if (done || steps>=max_iterations){
+          break
+        }
+        }
+      return allActions;
     }
 }
 
@@ -181,7 +197,7 @@ class GridWorldEnv {
   
     render() {
         
-            console.log('--- Grid World ---');
+            document.write('--- Grid World ---<br>');
             for (let i = 0; i < this.grid.length; i++) {
               let row = '';
               for (let j = 0; j < this.grid[i].length; j++) {
@@ -196,7 +212,7 @@ class GridWorldEnv {
           
     }
   }
-function grid1(){
+function testenv(){
 
         const grid11=[["-", "-", "-", "W"],
                      ["-", "W", "-", "W"],
@@ -237,20 +253,85 @@ function grid1(){
              g.render();
          }, 2000);
 }
-function nothing(){
 
-}
-function play1(){
+function testagentplay(){
     const grid11=[["-", "-", "-", "W"],
+                  ["-", "W", "-", "W"],
+                  ["-", "-", "-", "-"],
+                  ["S", "W", "-", "E"]];
+
+    var g=new GridWorldEnv(grid11);
+    // document.write("chkp0 <br>")
+    var a =new QTableAgentV1(env=g);
+    printQmatrix(a.Q)
+   
+    setTimeout(()=>{
+      // document.write("Here we go <br>")
+      all_actions = a.play();
+      document.write("total actions: " + all_actions.length + "<br>")
+      document.write(all_actions)
+    },2000);
+}
+
+function playgame(a){
+  setTimeout(()=>{
+  // document.write("Here we go <br>")
+  all_actions = a.play();
+  document.write("total actions: " + all_actions.length + "<br>")
+  document.write(all_actions)
+},2000);
+}
+
+function testagenttrain(){
+  const grid11=[["-", "-", "-", "W"],
                 ["-", "W", "-", "W"],
                 ["-", "-", "-", "-"],
                 ["S", "W", "-", "E"]];
 
-    var g=new GridWorldEnv(grid11);
-    let a =new QTableAgentV1(env=g);
-   
-    setTimeout(()=>{
-       a.play();
-       
-    },2000);
+  var g=new GridWorldEnv(grid11);
+  // document.write("chkp0 <br>")
+  var a =new QTableAgentV1(env=g);
+  setTimeout(()=>{
+    document.write("Before training <br>")
+    printQmatrix(a.Q)
+    var [rewards, steps] = a.train(episodes=50);
+    document.write("After training <br>")
+    printQmatrix(a.Q)
+    playgame(a)
+  },5000);
+  
+}
+function printQmatrix(Q){
+  for (let i=0;i<Q.length;i++){
+    for (let j=0;j<Q[0].length;j++){
+      for (let k=0;k<Q[i][j].length;k++){
+        document.write(formatDecimal(Q[i][j][k]))
+        document.write("*")
+      }
+      document.write("||*")
+    }
+    document.write("<br>")
+  }
+}
+function formatDecimal(number) {
+  // Ensure number is a valid number
+  if (isNaN(number)) {
+    return "Invalid number";
+  }
+
+  // Round the number to 2 decimal places
+  const roundedNumber = Number(number).toFixed(2);
+
+  // Extract the integer and decimal parts
+  const [integerPart, decimalPart] = roundedNumber.split(".");
+
+  // Ensure there are exactly 4 digits before the decimal point
+  const formattedIntegerPart = "0".repeat(4 - integerPart.length) + integerPart;
+
+  // Ensure there are exactly 2 digits after the decimal point
+  const formattedDecimalPart = decimalPart.padEnd(2, "0");
+
+  // Combine the formatted parts and return the result
+  const formattedNumber = `${formattedIntegerPart}.${formattedDecimalPart}`;
+  return formattedNumber;
 }
