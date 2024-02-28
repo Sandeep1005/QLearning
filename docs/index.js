@@ -25,6 +25,7 @@ function changeColor(){
   },2000)
 }
 
+
 class QTableAgentV1 {
     constructor(env, alpha = 0.1, gamma = 0.9, epsilon = 0.5,actionSpaceSize=4) {
         this.env = env;
@@ -87,6 +88,7 @@ class QTableAgentV1 {
             stepsInEpisodes.push(totalSteps);
         }
     }
+
 
     play(numEpisodes = 1, greedy = true) {
        
