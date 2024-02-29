@@ -1,5 +1,6 @@
 
 
+
 function changeColor(){
  
   document.querySelector("#p1").style.backgroundColor="blue";
@@ -7,12 +8,18 @@ function changeColor(){
     document.querySelector("#p1").style.backgroundColor="";
     document.querySelector("#p2").style.backgroundColor="blue";
 
+
     setTimeout(function(){
       document.querySelector("#p2").style.backgroundColor="";
       document.querySelector("#p3").style.backgroundColor="blue";
 
-      setTimeout(function(){
-        document.querySelector("#p3").style.backgroundColor="";
+
+    setTimeout(function(){
+      document.querySelector("#p2").style.backgroundColor="";
+    
+
+
+     
       },2000)
     },2000)
   },2000)
