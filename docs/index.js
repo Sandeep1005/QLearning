@@ -1,12 +1,5 @@
-/*document.addEventListener('DOMContentLoaded', ()=>{
 
-    var cells=document.querySelectorAll(".value-column");
-    cells.forEach(cell => {
-        cell.textContent=Math.floor(Math.random()*201)-100;
-        
-    });
 
-})*/
 function changeColor(){
  
   document.querySelector("#p1").style.backgroundColor="blue";
@@ -27,27 +20,27 @@ function changeColor(){
 
 class QTableAgentV1 {
     constructor(env, alpha = 0.1, gamma = 0.9, epsilon = 0.5,actionSpaceSize=4) {
-        // document.write("chkp1<br>")
+        
         this.env = env;
-        // document.write("chkp2<br>")
+        
         this.gridShape = [this.env.grid.length,this.env.grid[0].length];
-        // document.write("chkp3<br>")
+        
         this.actionSpaceSize =actionSpaceSize;
         this.alpha = alpha;  // Learning rate
         this.gamma = gamma;  // Discount factor
         this.epsilon = epsilon;  // Exploration rate
-        // document.write("chkp4<br>")
+        
         // Initialize Q-table
         this.Q = Array.from({ length: this.gridShape[0] }, () =>
-            Array.from({ length: this.gridShape[1] }, () =>
+                Array.from({ length: this.gridShape[1] }, () =>
                 Array(this.actionSpaceSize).fill(0)
             )
         );
-        // document.write("chkp5<br>")
+        
     }
 
     act(state, greedy = false) {
-        // document.write("act chkp1 <br>")
+     
         if (Math.random() < this.epsilon && !greedy) {  // Explore with probability epsilon
             return Math.floor(Math.random() * this.actionSpaceSize);
         } else {  // Exploit using maximum Q-value
@@ -97,23 +90,23 @@ class QTableAgentV1 {
 
 
     play(greedy = true, max_iterations=20) {
-      // document.write("play chkp1 <br>")
+      
       var state = this.env.reset();
       var done = false;
 
       const allActions = [];
       var steps = 0;
-      // document.write("play chkp2 <br>")
+ 
       while (true) {
-        // document.write("play loop chkp1 <br>")
+        
         const action = this.act(state, greedy);
-        // document.write("play loop chkp2 <br>")
+       
         allActions.push(this.env.actionSpace[action]);
         var [nextState, reward, done, info] = this.env.step(action);
         // allActions.push(done)
         // allActions.push(nextState)
         state = nextState;
-        // document.write(action+"<br>")
+       
         steps = steps+1;
         if (done || steps>=max_iterations){
           break
@@ -299,14 +292,14 @@ function playgame(a){
 }
 
 function testagenttrain(){
-  const grid11=[["-", "-", "-", "W"],
+ /* const grid11=[["-", "-", "- ", "W"],
                 ["-", "W", "-", "W"],
                 ["-", "-", "-", "-"],
                 ["S", "W", "-", "E"]];
 
   var g=new GridWorldEnv(grid11);
   // document.write("chkp0 <br>")
-  var a =new QTableAgentV1(env=g);
+  var a =new QTableAgentV1(env=g);*/
   setTimeout(()=>{
     document.write("Before training <br>")
     printQmatrix(a.Q)
@@ -348,3 +341,112 @@ function formatDecimal(number) {
 
   return formatter.format(number);
 }
+function silentTraining(){
+  const grid11=[["-", "-",  "W"],
+                ["-", "W",  "W"],
+                ["-", "-",  "-"],
+                ["S", "W",  "E"]];
+
+  var gridWorld=new GridWorldEnv(grid11);
+ 
+  var agent =new QTableAgentV1(env=gridWorld);
+ 
+  var episodeInput =document.getElementById("no").value;
+  let numberEpisode = parseInt(episodeInput);
+  
+ 
+
+  prepareEnv(arr=grid11);
+ setTimeout(()=>{
+  var [nextState, reward] = agent.train(episodes =numberEpisode );
+  
+  fillTable(agent.Q);
+ },2000);
+
+ // fillTable(agent.Q);  
+
+
+
+
+
+
+}
+function fillTable(Q){
+  
+   
+
+
+        let a= [];
+        for(let i=0;i<Q.length;i++){
+          for(let j=0;j<Q[0].length;j++){
+            a.push(Q[i][j][2]);
+            a.push(Q[i][j][0]);
+            a.push(Q[i][j][1]);
+            a.push(Q[i][j][3]);
+
+           /*  a.push(toString(i)+toString(j)+"U") ;
+             a.push(toString(i)+toString(j)+"L") ;
+             a.push(toString(i)+toString(j)+"R") ;
+             a.push(toString(i)+toString(j)+"D") ;*/
+            /* a.push(100*i+10*j+2);
+             a.push(100*i+10*j+0);
+             a.push(100*i+10*j+1);
+             a.push(100*i+10*j+3);*/
+
+          }
+        }
+       
+        var cells = document.querySelectorAll(".value-column");
+        let i=0 
+        cells.forEach(c => {
+          
+          c.textContent = Math.round(a[i]);
+          i++
+        
+      
+      });
+ 
+
+}
+function prepareEnv(arr){
+
+       
+            let img=[];
+            
+            for(let i=0;i<arr.length;i++){
+              
+              for(let j=0;j<arr[i].length;j++){
+                
+                if(arr[i][j]=="_"){
+                  document.write("0");
+                      img.push(" ");
+                }
+                else if(arr[i][j]=='W'){
+                //img.push("💣");
+                img.push("bomb");
+                }
+                else if(arr[i][j]=="S"){
+                  //img.push("▶️");
+                  img.push("s");
+                }
+                else if(arr[i][j]=="E"){
+                 // img.push("🎯");
+                  img.push("e");
+                }
+                
+              
+            }
+          
+            var cells = document.querySelectorAll(".img");
+        let i=0 
+        cells.forEach(c => {
+          
+          c.textContent = img[i];
+          i++
+        
+      
+      });
+
+
+}
+
