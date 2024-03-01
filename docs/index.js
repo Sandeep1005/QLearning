@@ -1,24 +1,21 @@
-
-
-
-function changeColor(){
- 
-  document.querySelector("#p1").style.backgroundColor="blue";
+function visualize(){
+  document.querySelector("#p1").style.backgroundColor="blueviolet";
+  document.querySelector("#p1").style.color="antiquewhite";
   setTimeout(function(){
     document.querySelector("#p1").style.backgroundColor="";
-    document.querySelector("#p2").style.backgroundColor="blue";
-
-
-    setTimeout(function(){
-      document.querySelector("#p2").style.backgroundColor="";
-      document.querySelector("#p3").style.backgroundColor="blue";
-
+    document.querySelector("#p1").style.color="";
+    document.querySelector("#p2").style.backgroundColor="blueviolet";
+    document.querySelector("#p2").style.color="antiquewhite";
 
     setTimeout(function(){
       document.querySelector("#p2").style.backgroundColor="";
-    
+      document.querySelector("#p2").style.color="";
+      document.querySelector("#p3").style.backgroundColor="blueviolet";
+      document.querySelector("#p3").style.color="antiquewhite";
 
-
+    setTimeout(function(){
+      document.querySelector("#p3").style.backgroundColor="";
+      document.querySelector("#p3").style.color="";
      
       },2000)
     },2000)
@@ -348,113 +345,80 @@ function formatDecimal(number) {
 
   return formatter.format(number);
 }
-function silentTraining(){
-  const grid11=[["-", "-",  "W"],
-                ["-", "W",  "W"],
-                ["-", "-",  "-"],
-                ["S", "W",  "E"]];
 
-  var gridWorld=new GridWorldEnv(grid11);
- 
-  var agent =new QTableAgentV1(env=gridWorld);
- 
+var grid11=[["-", "-", "W", "-"],
+            ["W", "-", "-", "-"],
+            ["-", "-", "-", "-"],
+            ["S", "W", "-", "E"]];
+var gridWorld = new GridWorldEnv(grid11);
+var agent = new QTableAgentV1(env=gridWorld);
+
+function silentTraining(){
   var episodeInput =document.getElementById("no").value;
   let numberEpisode = parseInt(episodeInput);
   
- 
-
-  prepareEnv(arr=grid11);
- setTimeout(()=>{
-  var [nextState, reward] = agent.train(episodes =numberEpisode );
-  
-  fillTable(agent.Q);
- },2000);
-
- // fillTable(agent.Q);  
-
-
-
-
-
-
+  setTimeout(()=>{
+    prepareEnv(arr=grid11);
+    var [nextState, reward] = agent.train(episodes =numberEpisode );
+    fillTable(agent.Q);
+  },2000);
 }
+
 function fillTable(Q){
+  let a= [];
+  for(let i=0;i<Q.length;i++){
+    for(let j=0;j<Q[0].length;j++){
+      a.push(Q[i][j][2]);
+      a.push(Q[i][j][0]);
+      a.push(Q[i][j][1]);
+      a.push(Q[i][j][3]);
+
+      /*  a.push(toString(i)+toString(j)+"U") ;
+        a.push(toString(i)+toString(j)+"L") ;
+        a.push(toString(i)+toString(j)+"R") ;
+        a.push(toString(i)+toString(j)+"D") ;*/
+
+      /* a.push(100*i+10*j+2);
+        a.push(100*i+10*j+0);
+        a.push(100*i+10*j+1);
+        a.push(100*i+10*j+3);*/
+
+    }
+  }
   
-   
-
-
-        let a= [];
-        for(let i=0;i<Q.length;i++){
-          for(let j=0;j<Q[0].length;j++){
-            a.push(Q[i][j][2]);
-            a.push(Q[i][j][0]);
-            a.push(Q[i][j][1]);
-            a.push(Q[i][j][3]);
-
-           /*  a.push(toString(i)+toString(j)+"U") ;
-             a.push(toString(i)+toString(j)+"L") ;
-             a.push(toString(i)+toString(j)+"R") ;
-             a.push(toString(i)+toString(j)+"D") ;*/
-            /* a.push(100*i+10*j+2);
-             a.push(100*i+10*j+0);
-             a.push(100*i+10*j+1);
-             a.push(100*i+10*j+3);*/
-
-          }
-        }
-       
-        var cells = document.querySelectorAll(".value-column");
-        let i=0 
-        cells.forEach(c => {
-          
-          c.textContent = Math.round(a[i]);
-          i++
-        
-      
-      });
- 
-
+  var cells = document.querySelectorAll(".value-column");
+  let i=0 
+  cells.forEach(c => {
+    c.textContent = Math.round(a[i]);
+    i++;
+  });
 }
 function prepareEnv(arr){
-
-       
-            let img=[];
-            
-            for(let i=0;i<arr.length;i++){
-              
-              for(let j=0;j<arr[i].length;j++){
-                
-                if(arr[i][j]=="_"){
-                  document.write("0");
-                      img.push(" ");
-                }
-                else if(arr[i][j]=='W'){
-                //img.push("💣");
-                img.push("bomb");
-                }
-                else if(arr[i][j]=="S"){
-                  //img.push("▶️");
-                  img.push("s");
-                }
-                else if(arr[i][j]=="E"){
-                 // img.push("🎯");
-                  img.push("e");
-                }
-                
-              
-            }
-          
-            var cells = document.querySelectorAll(".img");
-        let i=0 
-        cells.forEach(c => {
-          
-          c.textContent = img[i];
-          i++
-        
-      
-      });
-
-
-}
-
+  var img=[];
+  
+  for(let i=0;i<arr.length;i++){
+    for(let j=0;j<arr[i].length;j++){
+      if(arr[i][j]=="-"){
+        img.push(" ");
+      }
+      else if(arr[i][j]=='W'){
+        img.push("💣");
+        // img.push("bomb");
+      }
+      else if(arr[i][j]=="S"){
+        img.push("▶️");
+        // img.push("s");
+      }
+      else if(arr[i][j]=="E"){
+        img.push("🎯");
+        // img.push("e");
+      }
+    }
+  }
+  var cells = document.querySelectorAll(".img");
+  let i=0 
+  cells.forEach(c => {
+    c.textContent = img[i];
+    i++
+  });
 }

@@ -2,49 +2,42 @@
 body{
     display: grid;
     place-items: center;
-    background-color: aquamarine    ;
+    background-color: beige    ;
 }
 div{
     display: inline-block;
 }
-.steps{
-position: absolute;
-top: 10%;
-left: 15%;
-  
-}
 .outer-table{
-    border: 2px solid blue;
+    border: 0px solid blue;
 }
-
-
 .inner-column{
-    border: 1px solid red;
+    border: 0px solid red;
     height: 20px;
     width: 25px;
 } 
 .inner-table{
-    width: 200px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     
+}
+.img{
+    text-align: center;
+    font-size: xx-large;
 }
 
 .value-column{
     text-align: center;
-    font-size: larger;
+    font-size: smaller;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 
 }
 table{
-    border: 2px solid blue;
+    border: 2px solid blueviolet;
     width: 20%;
     text-align: center;
-    
-   
-
+    border-radius: 10px;
 }
 td{
-    
     height: auto;
 }
 .t1{
@@ -52,3 +45,58 @@ td{
     height: 100px;
 }
 
+.button{
+    background-color: blueviolet;
+    border-width: 0px;
+    border-radius: 15px;
+    color: antiquewhite;
+    font-size: larger;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.button:hover{
+    background-color: blue;
+}
+
+.textbox{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: larger;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: white;
+    border-width: 0px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.label{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: larger;
+    font-weight: 100;
+}
+.toprow{
+    align-items: center;
+}
+
+.algopara{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: medium;
+    border-radius: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.row {
+    display: flex;
+}
+
+.column {
+    flex: 1;
+    padding-left: 50px;
+    padding-right: 50px;
+}
