@@ -1,26 +1,227 @@
+function resetEnv(){
+  var state=agent.env.getObservation();
+  var row=state[0];
+  var col=state[1];
+  var cellId=(row*4+col)*9+2;
+  document.getElementsByClassName("inner-column")[cellId].textContent="";
+  document.getElementById("tr").textContent="";
+  agent.env.reset();
+  
+  document.getElementById("Q").innerHTML = "Q<sub>old</sub>";
+  var Sub=document.querySelectorAll(".sub");
+  Sub.forEach(s=>{
+     
+    s.style.backgroundColor="";
+   })
+
+  prepareEnv(arr=grid11);
+ 
+}
 function visualize(){
+  var Sub=document.querySelectorAll(".sub");
+  Sub.forEach(s=>{
+     
+    s.style.backgroundColor="";
+   })
+  
+  document.getElementById("tr").textContent="R";
+  document.getElementById("tr").style.color="";
   document.querySelector("#p1").style.backgroundColor="blueviolet";
   document.querySelector("#p1").style.color="antiquewhite";
+
+  var cells=document.querySelectorAll(".inner-table");
+ 
+  var state=agent.env.getObservation();
+  var row=state[0];
+  var col=state[1];
+  var cellId=row*4+col;
+  //remove play button and place agent icon at state
+  document.getElementsByClassName("img")[cellId].textContent="🕵🏼‍♀️";
+  cells[cellId].style.border="3px solid yellow";
+ 
+
+var max=Number.NEGATIVE_INFINITY;
+  var innerCells=document.querySelectorAll(".value-column");
+  innerCells=Array.from(innerCells);
+  
+  var innerCells2 =innerCells.slice(cellId*4,cellId*4+4);
+
+  innerCells2.forEach(c=>{
+    
+      let v=Number(c.textContent) ;
+      
+      if(v>max){
+        max=v;
+       
+      }
+        
+  })
+ setTimeout(()=>{
+  innerCells2.forEach(c=>{
+    let v=Number(c.textContent) ;
+    if(v==max){
+    
+      c.style.backgroundColor="gold";
+
+    }
+  })
+ },1000)
+ 
+
+    
   setTimeout(function(){
+    var action=agent.act(state=agent.env.getObservation(),greedy=true);
+    var [newState,reward,done,info]=agent.env.step(action=action);
+    
+    document.getElementsByClassName("img")[cellId].textContent="";
+    var row=state[0];
+    var col=state[1];
+    var oldRewardCellId=(row*4+col)*9+2;
+    document.getElementsByClassName("inner-column")[oldRewardCellId].textContent="";
+      
+      var row=newState[0];
+      var col=newState[1];
+      var newCellId=row*4+col;
+     let v=reward.toString();
+ 
+ 
+      document.getElementsByClassName("img")[newCellId].innerHTML= "🕵";
+      
+      var row=newState[0];
+      var col=newState[1];
+      var rewardCellId=(row*4+col)*9+2;
+      document.getElementsByClassName("inner-column")[rewardCellId].textContent=v;
+      
+     
+    //TABLE REWARD VALUE
+     if(reward>0){
+      document.getElementsByClassName("inner-column")[rewardCellId].style.color="green";//table reward
+     
+     }
+     else{
+      document.getElementsByClassName("inner-column")[rewardCellId].style.color="red";
+     
+     }
+      
+
+      
+      
+      
+
+    cells[cellId].style.border="";
+    innerCells2.forEach(c=>{
+
+      c.style.backgroundColor="";
+
+    })
+    
+  
+  
+    
     document.querySelector("#p1").style.backgroundColor="";
     document.querySelector("#p1").style.color="";
     document.querySelector("#p2").style.backgroundColor="blueviolet";
     document.querySelector("#p2").style.color="antiquewhite";
 
+
     setTimeout(function(){
+
+    
+      document.getElementById("tr").textContent=reward;
+     //Equation REWARD value 
+     if(reward>0){
+      document.getElementById("Q").textContent=max;
+      document.getElementById("tr").style.color="green"
+
+     }
+     else{
+      document.getElementById("Q").textContent=max;
+      document.getElementById("tr").style.color="red";
+    }
+      
+    
+
+      if(action==0){
+        innerCells2[1].style.backgroundColor="gold";
+      }
+      if(action==1){
+        innerCells2[2].style.backgroundColor="gold";
+      }
+      if(action==2){
+        innerCells2[0].style.backgroundColor="gold";
+      }
+      if(action==3){
+        innerCells2[3].style.backgroundColor="gold";
+      }
+      var row=newState[0];
+      var col=newState[1];
+      var I=(row*4+col)*4;
+     var InnerValue=document.querySelectorAll(".value-column");
+     var Sub=document.querySelectorAll(".sub");
+     InnerValue=Array.from(InnerValue);
+       InnerValue=InnerValue.slice(I,I+4);
+       InnerValue.forEach((C, index) => {
+      C.style.backgroundColor="violet";
+       Sub[index].innerHTML = C.textContent;
+ 
+   });
+   
+   Sub.forEach(s=>{
+  
+     s.style.color="violet";
+
+    })
+
+      document.getElementById("Q").style.color="gold";
       document.querySelector("#p2").style.backgroundColor="";
       document.querySelector("#p2").style.color="";
       document.querySelector("#p3").style.backgroundColor="blueviolet";
       document.querySelector("#p3").style.color="antiquewhite";
-
+      
     setTimeout(function(){
+     
+      document.getElementById("tr").textContent="R";
+      document.getElementById("tr").style.color="";
+
+      document.getElementById("Q").innerHTML = "Q<sub>old</sub>";
+      innerCells2.forEach(c=>{
+
+        c.style.backgroundColor="";
+  
+      })
+
+      InnerValue.forEach((C) => {
+        C.style.backgroundColor="";
+         
+        
+     });
+     Sub[0].innerHTML="Q<sub>u</sub>";
+     Sub[1].innerHTML="Q<sub>l</sub>";
+     Sub[2].innerHTML="Q<sub>r</sub>";
+     Sub[3].innerHTML="Q<sub>d</sub>";
+     Sub.forEach(s=>{
+  
+      s.style.color="";
+ 
+     })
+     
+       
+   
+    
+      document.getElementById("Q").style.color="";
       document.querySelector("#p3").style.backgroundColor="";
       document.querySelector("#p3").style.color="";
+      
+      agent.learn(state=state,action=action,nextState=newState,reward=reward);
+      fillTable(Q=agent.Q);
+      
+
      
       },2000)
     },2000)
   },2000)
 }
+
 
 class QTableAgentV1 {
     constructor(env, alpha = 0.1, gamma = 0.9, epsilon = 0.5,actionSpaceSize=4) {
@@ -59,7 +260,7 @@ class QTableAgentV1 {
 
     learn(state, action, nextState, reward) {
         // Q-learning update rule
-        const targetQ = reward + this.gamma * Math.max(...this.Q[nextState[0]][nextState[1]]);
+        var targetQ = reward + this.gamma * Math.max(...this.Q[nextState[0]][nextState[1]]);
         this.Q[state[0]][state[1]][action] =
             (1 - this.alpha) * this.Q[state[0]][state[1]][action] + this.alpha * targetQ;
     }
@@ -352,6 +553,8 @@ var grid11=[["-", "-", "W", "-"],
             ["S", "W", "-", "E"]];
 var gridWorld = new GridWorldEnv(grid11);
 var agent = new QTableAgentV1(env=gridWorld);
+window.addEventListener("load",silentTraining);
+
 
 function silentTraining(){
   var episodeInput =document.getElementById("no").value;
@@ -361,7 +564,9 @@ function silentTraining(){
     prepareEnv(arr=grid11);
     var [nextState, reward] = agent.train(episodes =numberEpisode );
     fillTable(agent.Q);
+    agent.env.reset();
   },2000);
+ 
 }
 
 function fillTable(Q){
@@ -422,3 +627,4 @@ function prepareEnv(arr){
     i++
   });
 }
+

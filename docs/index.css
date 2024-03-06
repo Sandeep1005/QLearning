@@ -19,10 +19,11 @@ div{
     width: 120px;
     height: 120px;
     
+    
 }
 .img{
     text-align: center;
-    font-size: xx-large;
+    font-size:xx-large;
 }
 
 .value-column{
@@ -79,7 +80,8 @@ td{
     font-weight: 100;
 }
 .toprow{
-    align-items: center;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .algopara{

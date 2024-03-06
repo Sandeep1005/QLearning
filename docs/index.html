@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>table</title>
     <link rel="stylesheet" href="index.css">
-    <script defer src="index.js"></script>
+    <script  src="index.js"></script>
 </head>
 <body>
     <div class="row">
@@ -15,13 +15,18 @@
             <p id="p1" class="algopara">Step 1: Choose Action</p>
             <p id="p2" class="algopara">Step 2: Perform Action</p>
             <p id="p3" class="algopara">Step 3: Update Q Value</p>
+            <P>Q=𝛂[Q<sub>target</sub>]+(1-𝛂)<span id="Q">Q<sub>old</sub></span> </P>
+            <p>Where<br> Q<sub>target</sub>=<span id="tr">R</span>+γV(new state)</p>
+            <p>V(new state)=max([<span class="sub">Q<sub>u</sub></span>,<span class="sub">Q<sub>l</sub></span>,<span class="sub">Q<sub>r</sub></span>,<span class="sub">Q<sub>d</sub></span>]) </p>
         </div>
         <div class="column">
             <div class="toprow">
                 <label for="Number of Episodes" class="label"> Episodes </label>
                 <input type="text" name="Number of Episodes" id="no" size="5px" class="textbox">
                 <input type="button" id="bt2" value="Train" class="button" onclick="silentTraining()">
-                <input type="button" id="bt1" value="Visulaize" class="button" onclick="visualize()">&nbsp;
+                <input type="button" id="bt1" value="Visulaize" class="button" onclick="visualize()">
+                
+                <input type="button" value="Reset"class="button" onclick="resetEnv()">
             </div>
             <table class="outer-table">
                 <tr class="outer-row ">
@@ -259,10 +264,10 @@
                 </td>
             </tr>
             <tr class="outer-row ">
-                <td>
+                <td class="inner-td">
                 <table class="inner-table">
                     <tr>
-                        <td class="inner-column"></td>
+                        <td class="inner-column "></td>
                         <td class="inner-column value-column"></td>
                         <td class="inner-column"></td>
                     </tr>
@@ -281,7 +286,7 @@
                 <td>
                     <table class="inner-table">
                         <tr>
-                            <td class="inner-column" ></td>
+                            <td class="inner-column"></td>
                             <td class="inner-column value-column "></td>
                             <td class="inner-column"></td>
                         </tr>
@@ -339,5 +344,7 @@
             </table>
         </div>
     </div>
+    <br><br>
+  <p id="demo"></p>
 </body>
 </html>
