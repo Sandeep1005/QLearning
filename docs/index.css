@@ -94,11 +94,10 @@ td{
     padding-right: 10px;
 }
 .row {
-    display: flex;
+display: flex;
 }
 
 .column {
-    flex: 1;
-    padding-left: 50px;
-    padding-right: 50px;
+margin-top: 5px;    
+padding-right: 350px;
 }
