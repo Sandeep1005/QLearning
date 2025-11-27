@@ -348,7 +348,7 @@ class QTableAgentV1 {
 
 //Grid environment class
 class GridWorldEnv {
-  constructor(grid, rewardEnd = 1000, rewardStep = 0, rewardLost = -1000, rewardInvalidAction = -10, curiosityReward = 0) {
+  constructor(grid, rewardEnd = 100, rewardStep = -1, rewardLost = -100, rewardInvalidAction = -10, curiosityReward = -2) {
     this.grid = grid;
 
     // Find start and end positions
@@ -392,7 +392,7 @@ class GridWorldEnv {
     this.currentPosition = this.startPos.slice(); // Clone to avoid mutation
     this.done = false;
     this.reward = 0;
-    this.isVisited = new Array(this.grid.length).fill(null).map(() => new Array(this.grid[0].length).fill(false));
+    // this.isVisited = new Array(this.grid.length).fill(null).map(() => new Array(this.grid[0].length).fill(false));
     return this.getObservation();
   }
 

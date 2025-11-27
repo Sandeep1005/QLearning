@@ -110,14 +110,13 @@ margin-top: 5px;
 padding-right: 350px;
 }
 
-.section {
+#demo-section {
     display: flex;
     justify-content: space-around;
 }
 
 .section-header {
     text-align: left;
-    margin-left: 5%;;
 }
 
 #demonstration {
@@ -126,5 +125,48 @@ padding-right: 350px;
 
 #algorithm-maths {
     width: 30%;
-    padding-left: 10%;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    padding: 20px 10%;
+    background-color: #fafafa;
+    color: #222;
+}
+h1, h2, h3 {
+    color: #333;
+}
+h1 {
+    margin-top: 40px;
+}
+.section {
+    margin-bottom: 50px;
+}
+code {
+    background: #eee;
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+.equation {
+    background: #eee;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+#section1 {
+    display: flex;
+    justify-content: space-around;
+}
+#left-section1 {
+    width: 50%;
+}
+#right-section1 {
+    width: 50%;
+}
+.new-term {
+    background-color: lightblue;
+    padding: 2px 5px;
+    border-radius: 5px;
 }

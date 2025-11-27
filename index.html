@@ -9,9 +9,112 @@
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
+    <h1>Teach a Computer to Solve Puzzles</h1>
+
+    <!-- Section 1 -->
+    <div class="section" id="section1">
+        <div id="left-section1">
+            <h2>How Do We Teach a Computer to Escape a Maze?</h2>
+
+            <p>Imagine a simple <strong>2D maze puzzle</strong>:</p>
+            <ul>
+                <li>There is a <strong>Start</strong> point</li>
+                <li>There is an<strong>End/Goal</strong> point</li>
+                <li>A few <strong>Traps</strong> placed that you want to avoid</li>
+            </ul>
+
+            <p>Your challenge is to program a robot to solve this maze and reach from Start to Goal. 
+            You <em>could</em> try to manually code rules like “avoid traps” or “move toward the goal,” but this quickly becomes messy and doesn’t scale if the maze changes.</p>
+
+            <h3>A Better Idea: Let the Robot Learn by Itself</h3>
+
+            <p>Instead of manually specifying rules, we can let the robot explore the maze, try different things, 
+            and remember what works. Thats it!! </p>
+
+            <p>If it moves up and falls into a trap → that was bad. <br>
+                If it moves right and gets closer to the goal → that was good.
+            </p>
+
+            <p>So the computer needs a way to <strong>keep track</strong> of what was good and what was bad.</p>
+
+            <p>To explain this further, let me introduce a couple of terms: <strong class="new-term">State</strong>, and <strong class="new-term">Action</strong></p>
+
+            <p>A State just means, <strong>"where you are right now."</strong> <br> 
+            In a maze, each box or tile is a state (row 1 col 2 or row 3 col 4).</p>
+
+            <p>An Action is simple <strong>what you choose to do next.</strong></p>
+
+            <p>For example:
+                <ul>
+                    <li>Move up</li>
+                    <li>Move down</li>
+                    <li>Move left</li>
+                    <li>Move right</li>
+                </ul>
+            </p>
+
+            <p>Some times when you collect coins, you will get bonus score, or if you step on a trap, you loose points. So, lets call this <strong class="new-term"> Reward.</strong> Its positive when robot does something good - like finishing puzzle or find coins on the way. It will be negative if it falls in a trap or gets eliminated.</p>
+
+            <p>For example:
+                <ul>
+                    <li>Reaching the end goal: + 100 points</li>
+                    <li>Stepping on a trap: -100 points</li>
+                    <li>Each normal move: -1 points (energy used to move)</li>
+                </ul>
+            </p>
+
+            <p>Our robot tries out the maze a few times with mixed results and remembers what happened last time when it went in a certain direction. In other words, it has an expectation of what reward it gets if it takes a certain action in a given state. Lets call this expected reward as <strong class="new-term">Q-value.</strong></p>
+
+            <p>For example:
+                <ul>
+                    <li>If you are in row 2, col 3 (state) and you go left (action), you will hit a trap -> -100 points (reward)</li>
+                    <li>If you are in row 2, col 3 (state) and you go up (action), you will hit energy boost -> +100 points (reward)</li>
+                </ul>
+            </p>
+
+            <p>Thats it.. no more new jargon!</p>
+
+            <p>When the robot enters the maze for the first time, it does not have any expectation of what might happen from any action. Which means, Q-value is zero for all state action pairs. So, it takes random actions.</p>
+
+            <p>But, as it keeps exploring the maze, whenever it encounters a good or bad state (either positive or negative reward), it immediately updates the Q-value for the state action pair which led to this state.</p>
+
+            <p>In other words, <strong>After you try something, you adjust your expectations based on what actually happened.</strong> And in future, when you are in a similar situation, follow the path with highest expected Q-value</p>
+
+            <p>Thats it. Now you understand how Q-learning works!! If you want to know more details about the exact math behind it, you can continue reading. Or else go to the demo.</p>
+
+            <p>The following is the exact equation that is used to calculate the updated Q-value by using an experience of robot.</p>
+
+            <p class="equation">
+                $$ Q(s, a) ← Q(s, a) + \alpha [ r + \gamma max Q(s', a') - Q(s, a) ] $$
+            </p>
+            <p>Whoa.. thats a lot of math. Before you panic, lets explain it in plain words.</p>
+            <p><strong>New score = Old score + How much the current experience change our mind about expectation.</strong></p>
+            <p>That “How much the experience changed our mind” part is:
+                <ul>
+                    <li>What reward we got right now</li>
+                    <li>PLUS the best possible score we can get in the future</li>
+                    <li>MINUS what we originally thought would happen</li>
+                </ul>
+            </p>
+            <p>The symbols:
+                <ul>
+                    <li>\( Q(s, a) \): The expected Q-value</li>
+                    <li>\( r \): the reward we got for the specific action</li>
+                    <li>\( max_{a'} Q(s', a') \): best expectation from future state</li>
+                    <li>\( \alpha \): how fast we learn from new information</li>
+                    <li>\( \gamma \): how much we care about future</li>
+                </ul>
+            </p>
+            <p>You can see the same equation in action in the demonstration.</p>
+        </div>
+        <div class="right-section1">
+            <img src="/assets/q_learning_image.webp">
+        </div>
+    </div>
+
 
     <h2 class="section-header">Demonstration</h2>
-    <div class="section">
+    <div id="demo-section">
 
         <div id="algorithm-maths">
             <h3>Q - Learning</h3>
@@ -20,10 +123,11 @@
             <p id="p2" class="algopara">Step 2: Perform Action</p>
             <p id="p3" class="algopara">Step 3: Update Q Value</p>
 
-            <p> \( Q = \alpha Q_{target} + \left( 1 - \alpha \right) \) <span id="Q"> \( Q_{old} \) </span> </p>
+            <p class="equation"> \( Q = \alpha Q_{target} + \left( 1 - \alpha \right) \) <span id="Q"> \( Q_{old} \) </span> </p>
             Where 
-            <p> \( Q_{target} = \) <span id="tr"> \( R \) </span> \( + \gamma V \left( s_{new} \right) \) </p>
-            <p> \( V(s_{new}) = max ( \) <span class="sub"> \( Q_u \) </span>, <span class="sub"> \( Q_l \) </span>, <span class="sub"> \( Q_r \) </span>, <span class="sub"> \( Q_d \) </span> \( ) \) </p>
+            <p class="equation"> \( Q_{target} = \) <span id="tr"> \( R \) </span> \( + \gamma V \left( s_{new} \right) \) 
+                <br>
+                \( V(s_{new}) = max ( \) <span class="sub"> \( Q_u \) </span>, <span class="sub"> \( Q_l \) </span>, <span class="sub"> \( Q_r \) </span>, <span class="sub"> \( Q_d \) </span> \( ) \) </p>
             <p>\( Q_u, Q_r, Q_d, Q_l \) are \( Q \) - values of moving up, right, down, left from the current state respectively</p>
             <p>\( R \) is the reward obtained by performing the action</p>
             <p>\( \alpha \) is learning rate</p>
