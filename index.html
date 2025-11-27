@@ -6,20 +6,32 @@
     <title>table</title>
     <link rel="stylesheet" href="index.css">
     <script  src="index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <div class="row">
-        <div class="column">
-            <h2>Q - Learning</h2>
-            <h3>For each episode:</h3>
+
+    <h2 class="section-header">Demonstration</h2>
+    <div class="section">
+
+        <div id="algorithm-maths">
+            <h3>Q - Learning</h3>
+            <h4>For each episode:</h4>
             <p id="p1" class="algopara">Step 1: Choose Action</p>
             <p id="p2" class="algopara">Step 2: Perform Action</p>
             <p id="p3" class="algopara">Step 3: Update Q Value</p>
-            <P>Q=𝛂[Q<sub>target</sub>]+(1-𝛂)<span id="Q">Q<sub>old</sub></span> </P>
+
+            <!-- <P>Q=𝛂[Q<sub>target</sub>]+(1-𝛂)<span id="Q">Q<sub>old</sub></span> </P>
             <p>Where<br> Q<sub>target</sub>=<span id="tr">R</span>+γV(new state)</p>
-            <p>V(new state)=max([<span class="sub">Q<sub>u</sub></span>,<span class="sub">Q<sub>l</sub></span>,<span class="sub">Q<sub>r</sub></span>,<span class="sub">Q<sub>d</sub></span>]) </p>
+            <p>V(new state)=max([<span class="sub">Q<sub>u</sub></span>,<span class="sub">Q<sub>l</sub></span>,<span class="sub">Q<sub>r</sub></span>,<span class="sub">Q<sub>d</sub></span>]) </p> -->
+
+            <p> \( Q = \alpha Q_{target} + \left( 1 - \alpha \right) \) <span id="Q"> \( Q_{old} \) </span> </p>
+            Where 
+            <p> \( Q_{target} = \) <span id="tr"> \( R \) </span> \( + \gamma V \left( s_{new} \right) \) </p>
+            <p> \( V(s_{new}) = max ( \) <span class="sub"> \( Q_u \) </span>, <span class="sub"> \( Q_l \) </span>, <span class="sub"> \( Q_r \) </span>, <span class="sub"> \( Q_d \) </span> \( ) \) </p>
+            <p>\( Q_u, Q_r, Q_d, Q_l \) are \( Q \) - values of moving up, right, down, left from the current state respectively</p>
         </div>
-        <div class="column">
+
+        <div id="demonstration">
             <div class="toprow">
                 <label for="Number of Episodes" class="label"> Episodes </label>
                 <input type="text" name="Number of Episodes" id="no" size="5px" class="textbox">
@@ -343,7 +355,18 @@
             </tr>  
             </table>
         </div>
+        
     </div>
+
+
+    <h2 class="section-header">Explanation</h2>
+    <div class="section">
+        
+
+    </div>
+
+
+
     <br><br>
   <p id="demo"></p>
 </body>

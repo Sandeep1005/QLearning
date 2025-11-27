@@ -31,7 +31,7 @@ function visualize(){
   })
 
   //Remove and set text context for the certain i
-  document.getElementById("tr").textContent="R";
+  // document.getElementById("tr").textContent="R";
   document.getElementById("tr").style.color="";
   document.querySelector("#p1").style.backgroundColor="blueviolet";
   document.querySelector("#p1").style.color="antiquewhite";
@@ -199,10 +199,10 @@ function visualize(){
    // Step 3 in this all the values are set to the original state
    setTimeout(function(){
      
-    document.getElementById("tr").textContent="R";
+    document.getElementById("tr").textContent="\\( R \\)";
     document.getElementById("tr").style.color="";
 
-    document.getElementById("Q").innerHTML = "Q<sub>old</sub>";
+    document.getElementById("Q").innerHTML = "\\( Q_{old} \\)";
     innerCells2.forEach(c=>{
 
       c.style.backgroundColor="";
@@ -216,10 +216,12 @@ function visualize(){
    });
 
    //It assigns the default text and color
-   Sub[0].innerHTML="Q<sub>u</sub>";
-   Sub[1].innerHTML="Q<sub>l</sub>";
-   Sub[2].innerHTML="Q<sub>r</sub>";
-   Sub[3].innerHTML="Q<sub>d</sub>";
+   Sub[0].innerHTML="\\( Q_{u} \\)";
+   Sub[1].innerHTML="\\( Q_{l} \\)";
+   Sub[2].innerHTML="\\( Q_{r} \\)";
+   Sub[3].innerHTML="\\( Q_{d} \\)";
+   MathJax.typeset();
+
    Sub.forEach(s=>{
 
     s.style.color="";
