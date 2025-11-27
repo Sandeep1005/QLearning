@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>table</title>
+    <title>Q-Learning</title>
     <link rel="stylesheet" href="index.css">
     <script  src="index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -19,10 +19,6 @@
             <p id="p1" class="algopara">Step 1: Choose Action</p>
             <p id="p2" class="algopara">Step 2: Perform Action</p>
             <p id="p3" class="algopara">Step 3: Update Q Value</p>
-
-            <!-- <P>Q=𝛂[Q<sub>target</sub>]+(1-𝛂)<span id="Q">Q<sub>old</sub></span> </P>
-            <p>Where<br> Q<sub>target</sub>=<span id="tr">R</span>+γV(new state)</p>
-            <p>V(new state)=max([<span class="sub">Q<sub>u</sub></span>,<span class="sub">Q<sub>l</sub></span>,<span class="sub">Q<sub>r</sub></span>,<span class="sub">Q<sub>d</sub></span>]) </p> -->
 
             <p> \( Q = \alpha Q_{target} + \left( 1 - \alpha \right) \) <span id="Q"> \( Q_{old} \) </span> </p>
             Where 
