@@ -23,7 +23,12 @@ function resetEnv(){
 }
 
 //Visualize the environment
-function visualize(){
+function visualize(delay=2000){
+  // Disable buttons
+  document.getElementById("bt1").disabled = true
+  document.getElementById("bt2").disabled = true
+  document.getElementById("bt3").disabled = true
+
   //Clear the background color of the cells
   var Sub=document.querySelectorAll(".sub");
   Sub.forEach(s=>{
@@ -84,12 +89,14 @@ function visualize(){
 
                     }
                 })
-        },1000)
+        },delay/2)
+
+  var newState,reward,done,info
 
  //Step 1      
  setTimeout(function(){
   var action=agent.act(state=agent.env.getObservation(),greedy=true);
-  var [newState,reward,done,info]=agent.env.step(action=action);
+  [newState,reward,done,info]=agent.env.step(action=action);
   
   document.getElementsByClassName("img")[cellId].textContent="";
   var row=state[0];
@@ -236,11 +243,27 @@ function visualize(){
    agent.learn(state=state,action=action,nextState=newState,reward=reward);
    fillTable(Q=agent.Q);
    
-
+   // If the episode is done, then reset
+    if (done) {
+      setTimeout(function(){
+        resetEnv()
+        // Re-enable buttons
+        document.getElementById("bt1").disabled = false
+        document.getElementById("bt2").disabled = false
+        document.getElementById("bt3").disabled = false
+      }, delay)
+    }
+    else {
+      // Re-enable buttons
+      document.getElementById("bt1").disabled = false
+      document.getElementById("bt2").disabled = false
+      document.getElementById("bt3").disabled = false
+    }
   
-   },2000)
- },2000)
-},2000)
+   },delay)
+ },delay)
+},delay)
+
 }
   
 //Q Table Agent Class
@@ -582,12 +605,26 @@ var grid11=[["-", "-", "W", "-"],
           ["S", "W", "-", "E"]];
 var gridWorld = new GridWorldEnv(grid11);
 var agent = new QTableAgentV1(env=gridWorld);
-window.addEventListener("load",silentTraining);
+
+window.addEventListener("load",setTimeout(() => {
+  prepareEnv(arr=grid11);
+  fillTable(agent.Q);
+  agent.env.reset();
+}, 1000));
 
 //It takes number of eposides as input and assign to the train method
 function silentTraining(){
     var episodeInput =document.getElementById("no").value;
     let numberEpisode = parseInt(episodeInput);
+
+    // for (let i = 0; i < numberEpisode; i++) {
+    //   visualize(delay=0)
+    // }
+
+    // Disable buttons
+    document.getElementById("bt1").disabled = true
+    document.getElementById("bt2").disabled = true
+    document.getElementById("bt3").disabled = true
 
     setTimeout(()=>{
         prepareEnv(arr=grid11);
@@ -596,7 +633,12 @@ function silentTraining(){
         //The values are filled into the table by calling fillTable() method
         fillTable(agent.Q);
         agent.env.reset();
-    },2000);
+    },0);
+
+    // Re-enable buttons
+    document.getElementById("bt1").disabled = false
+    document.getElementById("bt2").disabled = false
+    document.getElementById("bt3").disabled = false
 
 }
 

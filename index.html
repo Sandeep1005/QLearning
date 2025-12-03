@@ -140,8 +140,7 @@
                 <input type="text" name="Number of Episodes" id="no" size="5px" class="textbox">
                 <input type="button" id="bt2" value="Train" class="button" onclick="silentTraining()">
                 <input type="button" id="bt1" value="Visualize" class="button" onclick="visualize()">
-                
-                <input type="button" value="Reset"class="button" onclick="resetEnv()">
+                <input id="bt3" type="button" value="Reset"class="button" onclick="resetEnv()">
             </div>
             <table class="outer-table">
                 <tr class="outer-row ">
@@ -464,7 +463,28 @@
 
     <h2 class="section-header">Explanation</h2>
     <div class="section">
-        
+        <p>Above you have a 4X4 gird puzzle with a start cell (bottom left), a target (bottom right), and a few traps. Robot needs to find a way to go from start to target without stepping in the traps. It can play the puzzle as many times as it want and finally findout a path from start to target.</p>
+
+        <p>We will assign a Q-value for each state (current cell) and action (up down left right) pair. They are shown in each cell at their corresponding directions.</p>
+
+        <p>In any given cell, the robot will go in the direction that has the highest Q value. Once, it makes a step, it will recieve some reward from the puzzle.</p>
+
+        <p>Following are the possible rewards the robot recieves when it makes a move.</p>
+
+        <ul>
+            <li>Runs into trap trap &#10145; <span style="color: red;"> -100 </span> points</li>
+            <li>Runs into wall &#10145; <span style="color: red;">-10</span> points</li>
+            <li>Reaches the goal &#10145; <span style="color:green;">+100</span> points</li>
+            <li>Any other step &#10145; <span style="color: orange;">-1</span> points</li>
+        </ul>
+
+        <p>During visualization, this reward is shown on top left of the box in which the robot is present at that moment.</p>
+
+        <p>Once a step is taken and reward is collected, the model updates the Q value of the action that it took by calculating the updated Q-value according to the equations on the left.</p>
+
+        <p>By doing this repeatedly, it will learn Q-values of all state-action pairs - establising the best path for reaching the target.</p>
+
+        <p>For all Q-values to be learned, it takes the robot about 50-100 tries of the puzzle. Each try is called an episode in RL terminology. So, you can directly train it for a few iterations and check how the Q values are changing by using the train button.</p>
 
     </div>
 
